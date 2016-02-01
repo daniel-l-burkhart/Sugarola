@@ -119,30 +119,31 @@ public class DrinkMachine {
 		switch (action) {
 
 			case DEPOSITQUARTER:
-				/*
+				
 				if (this.quartersInserted.size() > 4) {
 					return false;
 				}
-				*/
+				
 				return true;
 
 			case DEPOSITNICKEL:
-				/*
+				
 				if (this.nickelsInserted.size() > 17) {
 					return false;
 				}
-				*/
+				
 				return true;
 
 			case DEPOSITDIME:
-				/*
+				
 				if (this.dimesInserted.size() > 9) {
 					return false;
 				}
-				*/
+				
 				return true;
 
 			case DISPENSE:
+				
 				if (this.calculateTotalValue() < 85) {
 					return false;
 				}
@@ -152,9 +153,9 @@ public class DrinkMachine {
 					/*
 					 * Fix this. Is not working.
 					 */
-					if (!this.actionsTaken.contains(Action.RETURNDIME)
-							|| !this.actionsTaken.contains(Action.RETURNNICKEL)
-							|| !this.actionsTaken.contains(Action.RETURNQUARTER)) {
+					if (this.actionsTaken.contains(Action.RETURNDIME) == false
+							|| this.actionsTaken.contains(Action.RETURNNICKEL) == false
+							|| this.actionsTaken.contains(Action.RETURNQUARTER) == false) {
 						return false;
 					}
 

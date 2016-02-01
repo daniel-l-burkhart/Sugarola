@@ -113,26 +113,6 @@ public class WhenTestingSugarolaMachine {
 
 	}
 
-	@Test
-	public void WhenGivingExactAmountShouldReturnNothing() {
-		
-		this.machine = new DrinkMachine();
-
-		ArrayList<Action> currentTrace = new ArrayList<Action>();
-
-		currentTrace.add(Action.DEPOSITQUARTER);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DISPENSE);
-
-		
-		assertTrue(this.machine.performActions(currentTrace));
-	}
-
 	private void printOutPossible() {
 		System.out.println("Current Actions Now");
 		for (Action action : this.machine.getActions()) {
