@@ -38,13 +38,6 @@ public class DrinkMachine {
 
 		this.actionsTaken = new ArrayList<Action>();
 
-		/*
-		 * You can insert 17 nickels You can insert 8 dimes and 1 nickel You can
-		 * insert 3 quarters and one dime and one nickel
-		 * 
-		 * 1 Quarter = 2 dimes and 1 nickel = 5 nickels. 1 dime = 2 nickels
-		 */
-
 	}
 
 	/**
