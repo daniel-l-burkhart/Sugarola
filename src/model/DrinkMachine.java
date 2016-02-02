@@ -68,24 +68,6 @@ public class DrinkMachine {
 			this.calculateChange();
 
 		}
-		/*
-		 * else if (this.calculateTotalValue() > 85 &&
-		 * this.calculateTotalValue() <= 90) {
-		 * this.actionsPossible.add(Action.RETURNNICKEL);
-		 * 
-		 * } else if (this.calculateTotalValue() > 90 &&
-		 * this.calculateTotalValue() <= 95) {
-		 * this.actionsPossible.add(Action.RETURNDIME);
-		 * 
-		 * } else if (this.calculateTotalValue() > 95 &&
-		 * this.calculateTotalValue() <= 100) {
-		 * this.actionsPossible.add(Action.RETURNDIME);
-		 * this.actionsPossible.add(Action.RETURNNICKEL); }
-		 */
-		// Divide by coin value, then the result is the number of coins at that
-		// value you return.
-
-		System.out.println("Calculated total value: " + this.calculateTotalValue());
 
 		return this.actionsPossible;
 	}
@@ -119,31 +101,31 @@ public class DrinkMachine {
 		switch (action) {
 
 			case DEPOSITQUARTER:
-				
+
 				if (this.quartersInserted.size() > 4) {
 					return false;
 				}
-				
+
 				return true;
 
 			case DEPOSITNICKEL:
-				
+
 				if (this.nickelsInserted.size() > 17) {
 					return false;
 				}
-				
+
 				return true;
 
 			case DEPOSITDIME:
-				
+
 				if (this.dimesInserted.size() > 9) {
 					return false;
 				}
-				
+
 				return true;
 
 			case DISPENSE:
-				
+
 				if (this.calculateTotalValue() < 85) {
 					return false;
 				}
@@ -169,8 +151,7 @@ public class DrinkMachine {
 					return false;
 				}
 
-				if (this.calculateTotalValue() < 85 && this.nickelsInserted.size() > 1) {
-					this.nickelsInserted.remove(0);
+				if (this.calculateTotalValue() <= 85) {
 					return false;
 				}
 				return true;
@@ -181,8 +162,7 @@ public class DrinkMachine {
 					return false;
 				}
 
-				if (this.calculateTotalValue() < 85 && this.dimesInserted.size() > 1) {
-					this.dimesInserted.remove(0);
+				if (this.calculateTotalValue() <= 85) {
 					return false;
 				}
 				return true;
@@ -193,8 +173,7 @@ public class DrinkMachine {
 					return false;
 				}
 
-				if (this.calculateTotalValue() < 85 && this.quartersInserted.size() > 1) {
-					this.quartersInserted.remove(0);
+				if (this.calculateTotalValue() <= 85) {
 					return false;
 				}
 				return true;
@@ -216,6 +195,17 @@ public class DrinkMachine {
 
 		boolean result = true;
 
+		this.countAllCoins(trace);
+
+		for (Action currAction : trace) {
+			result = this.performaAction(currAction);
+		}
+
+		return result;
+
+	}
+
+	private void countAllCoins(ArrayList<Action> trace) {
 		for (Action currAction : trace) {
 			switch (currAction) {
 
@@ -257,32 +247,6 @@ public class DrinkMachine {
 			}
 
 		}
-
-		/*
-		 * System.out.println(this.quartersInserted.size() +
-		 * " number of quarters");
-		 * System.out.println(this.nickelsInserted.size() +
-		 * " number of nickels."); System.out.println(this.dimesInserted.size()
-		 * + " number of dimes"); System.out.println(this.dispensed.size() +
-		 * " number of dispensed");
-		 * System.out.println(this.returnedQuarter.size() +
-		 * " number of returned quarters");
-		 * System.out.println(this.returnedNickel.size() +
-		 * " number of returned nickels.");
-		 * System.out.println(this.returnedDime.size() +
-		 * " number of returned dimes");
-		 */
-
-		for (Action currAction : trace) {
-			result = this.performaAction(currAction);
-		}
-
-		return result;
-
-	}
-
-	public int MoneyLeft() {
-		return this.calculateTotalValue();
 	}
 
 }
