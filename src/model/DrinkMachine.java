@@ -11,6 +11,14 @@ import java.util.Collections;
  */
 public class DrinkMachine {
 
+	public static final int NICKEL = 5;
+
+	public static final int DIME = 10;
+
+	public static final int QUARTER = 25;
+
+	public static final int PRICE_OF_SUGAROLA = 85;
+
 	private ArrayList<Action> actionsPossible;
 
 	private ArrayList<Action> quartersInserted;
@@ -20,8 +28,6 @@ public class DrinkMachine {
 	private ArrayList<Action> returnedNickel;
 	private ArrayList<Action> returnedDime;
 	private ArrayList<Action> returnedQuarter;
-
-	private ArrayList<Action> actionsTaken;
 
 	/**
 	 * Constructor of vending machine.
@@ -35,8 +41,6 @@ public class DrinkMachine {
 		this.returnedNickel = new ArrayList<Action>();
 		this.returnedDime = new ArrayList<Action>();
 		this.returnedQuarter = new ArrayList<Action>();
-
-		this.actionsTaken = new ArrayList<Action>();
 
 	}
 
@@ -53,7 +57,7 @@ public class DrinkMachine {
 		this.actionsPossible.add(Action.DEPOSITNICKEL);
 		this.actionsPossible.add(Action.DEPOSITDIME);
 
-		if (this.calculateTotalValue() >= 85) {
+		if (this.calculateTotalValue() >= PRICE_OF_SUGAROLA) {
 
 			this.actionsPossible.remove(Action.DEPOSITDIME);
 			this.actionsPossible.remove(Action.DEPOSITNICKEL);
@@ -69,122 +73,41 @@ public class DrinkMachine {
 	private void calculateChange() {
 
 		int totalCredit = this.calculateTotalValue();
-		int changeDue = totalCredit - 85;
+		int changeDue = totalCredit - PRICE_OF_SUGAROLA;
 
 		while (changeDue > 0) {
-			if (changeDue >= 25) {
+			if (changeDue >= QUARTER) {
 				this.actionsPossible.add(Action.RETURNQUARTER);
-				changeDue -= 25;
+				changeDue -= QUARTER;
 			}
-			if (changeDue >= 10) {
+			if (changeDue >= DIME) {
 				this.actionsPossible.add(Action.RETURNDIME);
-				changeDue -= 10;
+				changeDue -= DIME;
 			}
-			if (changeDue >= 5) {
+			if (changeDue >= NICKEL) {
 				this.actionsPossible.add(Action.RETURNNICKEL);
-				changeDue -= 5;
+				changeDue -= NICKEL;
 			}
 		}
 
 	}
 
-	// Find the number of quarters.
+	private boolean performaAction(Action action) {
 
-	/**
-	 * Public method to perform the action.
-	 * 
-	 * @param action
-	 *            The action in question
-	 * @return True if can be performed, false otherwise.
-	 */
-	public boolean performaAction(Action action) {
+		boolean result = true;
 
-		switch (action) {
-
-			case DEPOSITQUARTER:
-
-				if (this.quartersInserted.size() > 4) {
-					return false;
-				}
-
-				return true;
-
-			case DEPOSITNICKEL:
-
-				if (this.nickelsInserted.size() > 17) {
-					return false;
-				}
-
-				return true;
-
-			case DEPOSITDIME:
-
-				if (this.dimesInserted.size() > 9) {
-					return false;
-				}
-
-				return true;
-
-			case DISPENSE:
-
-				if (this.calculateTotalValue() < 85) {
-					return false;
-				}
-
-				if (this.calculateTotalValue() > 85) {
-
-					if (this.actionsTaken.contains(Action.RETURNDIME) == false
-							|| this.actionsTaken.contains(Action.RETURNNICKEL) == false
-							|| this.actionsTaken.contains(Action.RETURNQUARTER) == false) {
-						return false;
-					}
-
-				}
-
-				return true;
-
-			case RETURNNICKEL:
-
-				if (this.dispensed.size() < 1) {
-					return false;
-				}
-
-				if (this.calculateTotalValue() <= 85) {
-					return false;
-				}
-				return true;
-
-			case RETURNDIME:
-
-				if (this.dispensed.size() < 1) {
-					return false;
-				}
-
-				if (this.calculateTotalValue() <= 85) {
-					return false;
-				}
-				return true;
-
-			case RETURNQUARTER:
-
-				if (this.dispensed.size() < 1) {
-					return false;
-				}
-
-				if (this.calculateTotalValue() <= 85) {
-					return false;
-				}
-				return true;
+		if (!this.getActions().contains(action)) {
+			result = false;
 		}
 
-		return true;
+		return result;
 
 	}
 
 	private int calculateTotalValue() {
 
-		int total = (this.quartersInserted.size() * 25) + (this.nickelsInserted.size() * 5)
-				+ (this.dimesInserted.size() * 10);
+		int total = (this.quartersInserted.size() * QUARTER) + (this.nickelsInserted.size() * NICKEL)
+				+ (this.dimesInserted.size() * DIME);
 
 		return total;
 	}
@@ -211,43 +134,42 @@ public class DrinkMachine {
 	}
 
 	private void countAllCoins(ArrayList<Action> trace) {
+
 		for (Action currAction : trace) {
 			switch (currAction) {
 
 				case DEPOSITQUARTER:
+
 					this.quartersInserted.add(Action.DEPOSITQUARTER);
-					this.actionsTaken.add(Action.DEPOSITQUARTER);
-
 					break;
+
 				case DEPOSITNICKEL:
+
 					this.nickelsInserted.add(Action.DEPOSITNICKEL);
-					this.actionsTaken.add(Action.DEPOSITNICKEL);
-
 					break;
+
 				case DEPOSITDIME:
+
 					this.dimesInserted.add(Action.DEPOSITDIME);
-					this.actionsTaken.add(Action.DEPOSITDIME);
-
 					break;
+
 				case DISPENSE:
-					this.dispensed.add(Action.DISPENSE);
-					this.actionsTaken.add(Action.DISPENSE);
 
+					this.dispensed.add(Action.DISPENSE);
 					break;
+
 				case RETURNNICKEL:
 					this.returnedNickel.add(Action.RETURNNICKEL);
-					this.actionsTaken.add(Action.RETURNNICKEL);
-
 					break;
+
 				case RETURNDIME:
+
 					this.returnedDime.add(Action.RETURNDIME);
-					this.actionsTaken.add(Action.RETURNDIME);
-
 					break;
-				case RETURNQUARTER:
-					this.returnedQuarter.add(Action.RETURNQUARTER);
-					this.actionsTaken.add(Action.RETURNQUARTER);
 
+				case RETURNQUARTER:
+
+					this.returnedQuarter.add(Action.RETURNQUARTER);
 					break;
 			}
 

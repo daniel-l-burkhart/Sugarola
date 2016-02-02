@@ -48,7 +48,6 @@ public class WhenTestingSugarolaMachine {
 	public void WhenInsertingWithoutReturningShouldReturnFalse() {
 
 		this.machine = new DrinkMachine();
-
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
 
 		currentTrace.add(Action.DEPOSITQUARTER);
@@ -67,15 +66,13 @@ public class WhenTestingSugarolaMachine {
 	 */
 	@Test
 	public void WhenInsertingLessThan85ShouldReturnFalse() {
+		
 		this.machine = new DrinkMachine();
-
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
+		
 		currentTrace.add(Action.DEPOSITQUARTER);
-
 		currentTrace.add(Action.DEPOSITQUARTER);
-
 		currentTrace.add(Action.DEPOSITQUARTER);
-
 		currentTrace.add(Action.DISPENSE);
 
 		assertFalse(this.machine.performActions(currentTrace));
@@ -88,8 +85,8 @@ public class WhenTestingSugarolaMachine {
 	public void WhenTestingVariableCoinTypesShouldReturnTrue() {
 
 		this.machine = new DrinkMachine();
-
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
+		
 		currentTrace.add(Action.DEPOSITQUARTER);
 		currentTrace.add(Action.DEPOSITDIME);
 		currentTrace.add(Action.DEPOSITDIME);
@@ -105,26 +102,30 @@ public class WhenTestingSugarolaMachine {
 	}
 
 	/**
-	 * Testing over 85 cents but without returning change should return false.
+	 * Insert a LARGE number of coins and correct change should return true
 	 */
 	@Test
-	public void WhenOverIsGivenAndDispensedButNoChangeIsGivenShouldReturnFalse() {
-
+	public void WhenDepositingAnyAmountAboveSodaPriceShouldReturnTrue(){
+		
 		this.machine = new DrinkMachine();
-
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
-
-		currentTrace.add(Action.DEPOSITQUARTER);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITDIME);
-		currentTrace.add(Action.DEPOSITNICKEL);
-		currentTrace.add(Action.DEPOSITQUARTER);
-		currentTrace.add(Action.DEPOSITQUARTER);
+		
+		for(int i = 0; i<100; i++){
+			currentTrace.add(Action.DEPOSITDIME);
+			currentTrace.add(Action.DEPOSITNICKEL);
+		}
+		
 		currentTrace.add(Action.DISPENSE);
-
-		assertFalse(this.machine.performActions(currentTrace));
-
+		
+		for(int j = 0; j<282; j++){
+			currentTrace.add(Action.RETURNNICKEL);
+		}
+		
+		assertTrue(this.machine.performActions(currentTrace));
+		
+		
 	}
+
 
 	/**
 	 * Tests exact amount with return should return false.
@@ -133,7 +134,6 @@ public class WhenTestingSugarolaMachine {
 	public void WhenExactAmountIsGivenReturnChangeShouldReturnFalse() {
 
 		this.machine = new DrinkMachine();
-
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
 
 		currentTrace.add(Action.DEPOSITQUARTER);
@@ -144,7 +144,6 @@ public class WhenTestingSugarolaMachine {
 		currentTrace.add(Action.RETURNDIME);
 
 		assertFalse(this.machine.performActions(currentTrace));
-
 	}
 
 	/**
@@ -152,9 +151,12 @@ public class WhenTestingSugarolaMachine {
 	 */
 	@Test
 	public void WhenReturnIsDoneWithoutInsertShouldReturnFalse() {
+		
 		this.machine = new DrinkMachine();
 		ArrayList<Action> currentTrace = new ArrayList<Action>();
+		
 		currentTrace.add(Action.RETURNDIME);
+		
 		assertFalse(this.machine.performActions(currentTrace));
 	}
 
