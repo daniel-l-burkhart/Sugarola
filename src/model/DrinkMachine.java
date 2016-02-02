@@ -3,6 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Drink machine class
+ * 
+ * @author danielburkhart
+ *
+ */
 public class DrinkMachine {
 
 	private ArrayList<Action> actionsPossible;
@@ -17,6 +23,9 @@ public class DrinkMachine {
 
 	private ArrayList<Action> actionsTaken;
 
+	/**
+	 * Constructor of vending machine.
+	 */
 	public DrinkMachine() {
 
 		this.quartersInserted = new ArrayList<Action>();
@@ -38,19 +47,11 @@ public class DrinkMachine {
 
 	}
 
-	public DrinkMachine(ArrayList<Action> quarters, ArrayList<Action> dimes, ArrayList<Action> nickels,
-			ArrayList<Action> dispensed, ArrayList<Action> returnNickels, ArrayList<Action> returnQuarters,
-			ArrayList<Action> returnDimes) {
-
-		this.quartersInserted = quarters;
-		this.dimesInserted = dimes;
-		this.nickelsInserted = nickels;
-		this.dispensed = dispensed;
-		this.returnedDime = returnDimes;
-		this.returnedNickel = returnNickels;
-		this.returnedQuarter = returnQuarters;
-	}
-
+	/**
+	 * Gets the actions available at the current drink machine state.
+	 * 
+	 * @return An arrayList with all the actions.
+	 */
 	public ArrayList<Action> getActions() {
 
 		this.actionsPossible = new ArrayList<Action>();
@@ -96,6 +97,13 @@ public class DrinkMachine {
 
 	// Find the number of quarters.
 
+	/**
+	 * Public method to perform the action.
+	 * 
+	 * @param action
+	 *            The action in question
+	 * @return True if can be performed, false otherwise.
+	 */
 	public boolean performaAction(Action action) {
 
 		switch (action) {
@@ -132,9 +140,6 @@ public class DrinkMachine {
 
 				if (this.calculateTotalValue() > 85) {
 
-					/*
-					 * Fix this. Is not working.
-					 */
 					if (this.actionsTaken.contains(Action.RETURNDIME) == false
 							|| this.actionsTaken.contains(Action.RETURNNICKEL) == false
 							|| this.actionsTaken.contains(Action.RETURNQUARTER) == false) {
@@ -191,6 +196,13 @@ public class DrinkMachine {
 		return total;
 	}
 
+	/**
+	 * Performs actions on a list of actions
+	 * 
+	 * @param trace
+	 *            The arrayList passed
+	 * @return true if trace passes, false otherwise.
+	 */
 	public boolean performActions(ArrayList<Action> trace) {
 
 		boolean result = true;
